@@ -14,7 +14,6 @@ public class SubrecordParsingStrategy {
     public SubrecordParsingStrategy(int type) {
         switch (type) {
             case 1: this.parser = new PosDataParser(); break;
-
             case 16: this.parser = new PosDataParser(); break;
             case 17: this.parser = new ExtPosDataParser(); break;
             case 18: this.parser = new AdSensorsDataParser(); break;

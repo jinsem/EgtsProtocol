@@ -1,6 +1,12 @@
 package ru.azat.service;
 
+import io.netty.buffer.ByteBuf;
+import ru.azat.model.DataConverter;
 import ru.azat.model.Package;
+import ru.azat.utils.EgtsDecoderUtils;
+import ru.egts.core.bean.GlonassData;
+import ru.egts.core.parser.GlonassDataParser;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,13 +26,25 @@ public class Test {
 
     public static void printAllBytes(List<String> data) {
         data.forEach(e -> {
-
             Package aPackage = new Package(e);
             aPackage.decode();
-            aPackage.getFrame().getRecordList().forEach(r -> {
-                System.out.println("Add record. Length: " + r.getRL() + ", subrecords count: " + r.getSubrecordList().size());
-            });
+            try {
+                ByteBuf byteBuf = aPackage.encode();
+                String result = EgtsDecoderUtils.toString(byteBuf);
+                System.out.println(result);
+                System.out.println(e);
+            }catch (NotImplementedException ex){
+                System.out.println("error");
+            }
+//            aPackage.getFrame().getRecordList().forEach(r -> {
+//                System.out.println("Add record. Length: " + r.getRL() + ", subrecords count: " + r.getSubrecordList().size());
+//            });
         });
+//        GlonassDataParser parser = new GlonassDataParser();
+//        data.forEach(hex -> {
+//            GlonassData glonassData = parser.parse(0, DataConverter.hexStringToByteArray(hex));
+//            System.out.println(glonassData.getRecords().toString());
+//        });
     }
 
 }
